@@ -2,22 +2,19 @@ package com.mycompany.practica9.diu;
 import java.sql.*;
 import java.util.logging.*;
 
-public class BD {
+public class BaseDatos {
 
     private Connection con;
-    private final String username, password;
     
-    public BD(String username, String password){
-        this.username = username;
-        this.password = password;
+    public BaseDatos(){
     }
 
-    public boolean connectDB() {
+    public boolean connectDB(String username, String password) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://mozart.dis.ulpgc.es/DIU_BD?useSSL=true", username, password);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BD.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         return true;

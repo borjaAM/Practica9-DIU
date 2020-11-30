@@ -24,8 +24,10 @@ public class IniciarSesion extends javax.swing.JFrame {
         usernameTF = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        mostrarContraseñaCB = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Formulario Inicio de Sesión");
 
         jLabel1.setText("Contraseña:");
 
@@ -42,6 +44,13 @@ public class IniciarSesion extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("PRÁCTICA 9 DIU");
 
+        mostrarContraseñaCB.setText("Mostrar contraseña");
+        mostrarContraseñaCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mostrarContraseñaCBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -55,7 +64,9 @@ public class IniciarSesion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(usernameTF, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                     .addComponent(passwordTF))
-                .addGap(133, 133, 133))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(mostrarContraseñaCB)
+                .addGap(46, 46, 46))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -64,7 +75,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,11 +86,12 @@ public class IniciarSesion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(42, 42, 42)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(41, 41, 41)
+                    .addComponent(jLabel1)
+                    .addComponent(mostrarContraseñaCB))
+                .addGap(39, 39, 39)
                 .addComponent(loginButton)
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -90,13 +102,21 @@ public class IniciarSesion extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         String username = usernameTF.getText();
         String clave = String.copyValueOf(passwordTF.getPassword());
-        BD conexionDB = new BD(username, clave);
-        if(!conexionDB.connectDB()){
+        BaseDatos conexionDB = new BaseDatos();
+        if(!conexionDB.connectDB(username, clave)){
             JOptionPane.showMessageDialog(this, "El usuario o la contraseña no son correctos.", "Error al conectarse a la Base de Datos", JOptionPane.ERROR_MESSAGE);
         }
         InterfazBD interfazBD = new InterfazBD();
         interfazBD.setVisible(true);
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void mostrarContraseñaCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarContraseñaCBActionPerformed
+        if(mostrarContraseñaCB.isSelected()){
+            passwordTF.setEchoChar((char)0);
+        } else {
+            passwordTF.setEchoChar('*');
+        }
+    }//GEN-LAST:event_mostrarContraseñaCBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,6 +159,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JButton loginButton;
+    private javax.swing.JCheckBox mostrarContraseñaCB;
     private javax.swing.JPasswordField passwordTF;
     private javax.swing.JTextField usernameTF;
     // End of variables declaration//GEN-END:variables
