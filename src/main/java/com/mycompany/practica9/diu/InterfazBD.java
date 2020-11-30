@@ -1,9 +1,29 @@
 package com.mycompany.practica9.diu;
 
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 public class InterfazBD extends javax.swing.JFrame {
 
+    private BaseDatos baseDatos;
+    DefaultListModel modeloTabla = new DefaultListModel();
+    DefaultListModel modeloCampo = new DefaultListModel();
+    private List<Integer> elementSelected;
+    
+    public InterfazBD(BaseDatos bd) {
+        baseDatos = bd;
+        initComponents();
+        listaTablas.setModel(modeloTabla);
+        listaCamposTabla.setModel(modeloCampo);
+        elementSelected = new ArrayList<>();
+        mostrarTablas();
+    }
+    
     public InterfazBD() {
         initComponents();
     }
@@ -16,8 +36,8 @@ public class InterfazBD extends javax.swing.JFrame {
         panelTablas = new javax.swing.JPanel();
         panelModoSeleccion = new javax.swing.JPanel();
         multipleIntervalojTB = new javax.swing.JToggleButton();
-        intervaloJTB = new javax.swing.JToggleButton();
-        simpleTButton = new javax.swing.JToggleButton();
+        intervalojTB = new javax.swing.JToggleButton();
+        simplejTB = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaTablas = new javax.swing.JList<>();
         deseleccionarButton = new javax.swing.JButton();
@@ -25,6 +45,14 @@ public class InterfazBD extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         listaCamposTabla = new javax.swing.JList<>();
         tituloLabel = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuApp = new javax.swing.JMenu();
+        itemCerrar = new javax.swing.JMenuItem();
+        manuDescripcion = new javax.swing.JMenu();
+        menu = new javax.swing.JMenu();
+        itemMSimple = new javax.swing.JMenuItem();
+        itemMIntervalo = new javax.swing.JMenuItem();
+        itemMMultiple = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Información Base de Datos");
@@ -42,19 +70,19 @@ public class InterfazBD extends javax.swing.JFrame {
             }
         });
 
-        selectionModeButtons.add(intervaloJTB);
-        intervaloJTB.setText("Por intervalo");
-        intervaloJTB.addActionListener(new java.awt.event.ActionListener() {
+        selectionModeButtons.add(intervalojTB);
+        intervalojTB.setText("Por intervalo");
+        intervalojTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                intervaloJTBActionPerformed(evt);
+                intervalojTBActionPerformed(evt);
             }
         });
 
-        selectionModeButtons.add(simpleTButton);
-        simpleTButton.setText("Simple");
-        simpleTButton.addActionListener(new java.awt.event.ActionListener() {
+        selectionModeButtons.add(simplejTB);
+        simplejTB.setText("Simple");
+        simplejTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                simpleTButtonActionPerformed(evt);
+                simplejTBActionPerformed(evt);
             }
         });
 
@@ -66,27 +94,32 @@ public class InterfazBD extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelModoSeleccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(multipleIntervalojTB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(intervaloJTB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(simpleTButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(intervalojTB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(simplejTB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        panelModoSeleccionLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {intervaloJTB, multipleIntervalojTB, simpleTButton});
+        panelModoSeleccionLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {intervalojTB, multipleIntervalojTB, simplejTB});
 
         panelModoSeleccionLayout.setVerticalGroup(
             panelModoSeleccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelModoSeleccionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(simpleTButton)
+                .addComponent(simplejTB)
                 .addGap(35, 35, 35)
-                .addComponent(intervaloJTB)
+                .addComponent(intervalojTB)
                 .addGap(35, 35, 35)
                 .addComponent(multipleIntervalojTB)
                 .addContainerGap())
         );
 
-        panelModoSeleccionLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {intervaloJTB, multipleIntervalojTB, simpleTButton});
+        panelModoSeleccionLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {intervalojTB, multipleIntervalojTB, simplejTB});
 
+        listaTablas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaTablasValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(listaTablas);
 
         deseleccionarButton.setText("Deseleccionar elementos");
@@ -105,10 +138,11 @@ public class InterfazBD extends javax.swing.JFrame {
                 .addGroup(panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTablasLayout.createSequentialGroup()
                         .addComponent(panelModoSeleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
+                        .addGap(8, 8, 8)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablasLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 250, Short.MAX_VALUE)
                         .addComponent(deseleccionarButton)
                         .addGap(10, 10, 10))))
         );
@@ -116,10 +150,10 @@ public class InterfazBD extends javax.swing.JFrame {
             panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTablasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablasLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(deseleccionarButton))
                     .addGroup(panelTablasLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
@@ -153,6 +187,56 @@ public class InterfazBD extends javax.swing.JFrame {
         tituloLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloLabel.setText("BASE DE DATOS DIU");
 
+        menuApp.setText("Base de datos DIU");
+
+        itemCerrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemCerrar.setText("Cerrar conexión");
+        itemCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCerrarActionPerformed(evt);
+            }
+        });
+        menuApp.add(itemCerrar);
+
+        jMenuBar1.add(menuApp);
+
+        manuDescripcion.setText("Ayuda");
+
+        menu.setText("Acerca de");
+
+        itemMSimple.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemMSimple.setText("Modo simple");
+        itemMSimple.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMSimpleActionPerformed(evt);
+            }
+        });
+        menu.add(itemMSimple);
+
+        itemMIntervalo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemMIntervalo.setText("Modo por intervalo");
+        itemMIntervalo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMIntervaloActionPerformed(evt);
+            }
+        });
+        menu.add(itemMIntervalo);
+
+        itemMMultiple.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemMMultiple.setText("Modo múltiple");
+        itemMMultiple.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMMultipleActionPerformed(evt);
+            }
+        });
+        menu.add(itemMMultiple);
+
+        manuDescripcion.add(menu);
+
+        jMenuBar1.add(manuDescripcion);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,9 +255,9 @@ public class InterfazBD extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(36, 36, 36)
                 .addComponent(tituloLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelCamposTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -183,13 +267,13 @@ public class InterfazBD extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void simpleTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpleTButtonActionPerformed
+    private void simplejTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simplejTBActionPerformed
         listaTablas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    }//GEN-LAST:event_simpleTButtonActionPerformed
+    }//GEN-LAST:event_simplejTBActionPerformed
 
-    private void intervaloJTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intervaloJTBActionPerformed
+    private void intervalojTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intervalojTBActionPerformed
         listaTablas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-    }//GEN-LAST:event_intervaloJTBActionPerformed
+    }//GEN-LAST:event_intervalojTBActionPerformed
 
     private void multipleIntervalojTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multipleIntervalojTBActionPerformed
         listaTablas.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -197,8 +281,68 @@ public class InterfazBD extends javax.swing.JFrame {
 
     private void deseleccionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deseleccionarButtonActionPerformed
         listaTablas.clearSelection();
+        modeloCampo.removeAllElements();
     }//GEN-LAST:event_deseleccionarButtonActionPerformed
 
+    private void itemCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCerrarActionPerformed
+        int answer = JOptionPane.showConfirmDialog(this, "¿Quiere cerrar la conexión a la base de datos?", "Salir", JOptionPane.YES_NO_OPTION);
+        if(answer == JOptionPane.YES_OPTION){
+            baseDatos.cerrarConexion();
+            this.dispose();
+            IniciarSesion newSesion = new IniciarSesion();
+            newSesion.setVisible(true);
+        }
+    }//GEN-LAST:event_itemCerrarActionPerformed
+
+    private void itemMSimpleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMSimpleActionPerformed
+        JOptionPane.showMessageDialog(this, "El modo de seleccion simple solo permite seleccionar una tabla.", "Ayuda: Modo simple", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_itemMSimpleActionPerformed
+
+    private void itemMIntervaloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMIntervaloActionPerformed
+        JOptionPane.showMessageDialog(this, "El modo de seleccion por intervalo, o intervalo único, solo permite seleccionar una tabla inicial y otra final, marcando automáticamente"
+                + " las que estén entre ellas.", "Ayuda: Modo por intervalo", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_itemMIntervaloActionPerformed
+
+    private void itemMMultipleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMMultipleActionPerformed
+        JOptionPane.showMessageDialog(this, "El modo de seleccion múltiple, o por múltiples intervalos, permite seleccionar varias tablas.", "Ayuda: Modo múltiple", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_itemMMultipleActionPerformed
+
+    private void listaTablasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTablasValueChanged
+        if(evt.getValueIsAdjusting()){
+            int[] selectedIndices = listaTablas.getSelectedIndices();
+            modeloCampo.removeAllElements();
+            for (int index : selectedIndices) {
+                String tabla = modeloTabla.getElementAt(index).toString();
+                mostrarCamposTabla(tabla);
+            }
+        } 
+    }//GEN-LAST:event_listaTablasValueChanged
+  
+    private void mostrarTablas() {
+        try {
+            List tablas = baseDatos.readTables();
+            for (Object tabla : tablas) {
+                modeloTabla.addElement(tabla);
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(InterfazBD.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "No se ha podido leer las tablas de la base de datos\n"
+                    + "Error: " + ex.toString(), "Error Mostrar Tablas", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void mostrarCamposTabla(String tabla) {
+        try {
+            List readColumnas = baseDatos.readColumnas(tabla);
+            for (Object campo : readColumnas) {
+                modeloCampo.addElement(tabla+"."+campo);
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(InterfazBD.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "No se ha podido leer los campos de la tabla '"+ tabla+ "' \n"
+                    + "Error: " + ex.toString(), "Error Mostrar Campos de la Tabla", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -236,17 +380,26 @@ public class InterfazBD extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deseleccionarButton;
-    private javax.swing.JToggleButton intervaloJTB;
+    private javax.swing.JToggleButton intervalojTB;
+    private javax.swing.JMenuItem itemCerrar;
+    private javax.swing.JMenuItem itemMIntervalo;
+    private javax.swing.JMenuItem itemMMultiple;
+    private javax.swing.JMenuItem itemMSimple;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> listaCamposTabla;
     private javax.swing.JList<String> listaTablas;
+    private javax.swing.JMenu manuDescripcion;
+    private javax.swing.JMenu menu;
+    private javax.swing.JMenu menuApp;
     private javax.swing.JToggleButton multipleIntervalojTB;
     private javax.swing.JPanel panelCamposTablas;
     private javax.swing.JPanel panelModoSeleccion;
     private javax.swing.JPanel panelTablas;
     private javax.swing.ButtonGroup selectionModeButtons;
-    private javax.swing.JToggleButton simpleTButton;
+    private javax.swing.JToggleButton simplejTB;
     private javax.swing.JLabel tituloLabel;
     // End of variables declaration//GEN-END:variables
+
 }

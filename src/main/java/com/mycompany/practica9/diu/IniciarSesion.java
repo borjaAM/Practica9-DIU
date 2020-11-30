@@ -105,9 +105,12 @@ public class IniciarSesion extends javax.swing.JFrame {
         BaseDatos conexionDB = new BaseDatos();
         if(!conexionDB.connectDB(username, clave)){
             JOptionPane.showMessageDialog(this, "El usuario o la contraseña no son correctos.", "Error al conectarse a la Base de Datos", JOptionPane.ERROR_MESSAGE);
+        }else{
+            InterfazBD interfazBD = new InterfazBD(conexionDB);
+            interfazBD.setVisible(true);
+            this.dispose();
         }
-        InterfazBD interfazBD = new InterfazBD();
-        interfazBD.setVisible(true);
+        
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void mostrarContraseñaCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarContraseñaCBActionPerformed
