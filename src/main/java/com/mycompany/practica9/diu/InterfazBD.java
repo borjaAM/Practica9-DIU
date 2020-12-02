@@ -342,7 +342,8 @@ public class InterfazBD extends javax.swing.JFrame {
 
     private void itemDescripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDescripciónActionPerformed
         JOptionPane.showMessageDialog(this, "La aplicación permite ver las tablas que"
-                + " componen la base de datos y ver los distintos campos de cada uno de ellas.",
+                + " componen la base de datos y ver los distintos campos de cada uno de ellas."
+                + "\nRealizado por: Borja Álvarez Medina y Esther Zurita Curbelo",
                 "Ayuda: Descripción", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_itemDescripciónActionPerformed
   
