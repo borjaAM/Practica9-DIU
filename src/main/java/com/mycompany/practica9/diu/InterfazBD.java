@@ -13,14 +13,12 @@ public class InterfazBD extends javax.swing.JFrame {
     private BaseDatos baseDatos;
     DefaultListModel modeloTabla = new DefaultListModel();
     DefaultListModel modeloCampo = new DefaultListModel();
-    private List<Integer> elementSelected;
     
     public InterfazBD(BaseDatos bd) {
         baseDatos = bd;
         initComponents();
         listaTablas.setModel(modeloTabla);
         listaCamposTabla.setModel(modeloCampo);
-        elementSelected = new ArrayList<>();
         mostrarTablas();
     }
     
@@ -56,9 +54,12 @@ public class InterfazBD extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Información Base de Datos");
+        setResizable(false);
 
+        panelTablas.setBackground(new java.awt.Color(153, 251, 163));
         panelTablas.setBorder(javax.swing.BorderFactory.createTitledBorder("Tablas de la Base de Datos"));
 
+        panelModoSeleccion.setBackground(new java.awt.Color(204, 255, 204));
         panelModoSeleccion.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Modo Selección:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         selectionModeButtons.add(multipleIntervalojTB);
@@ -150,18 +151,19 @@ public class InterfazBD extends javax.swing.JFrame {
             panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTablasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTablasLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deseleccionarButton))
+                        .addComponent(jScrollPane1)
+                        .addGap(17, 17, 17)
+                        .addComponent(deseleccionarButton)
+                        .addContainerGap())
                     .addGroup(panelTablasLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(panelModoSeleccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(87, 87, 87))))
         );
 
+        panelCamposTablas.setBackground(new java.awt.Color(153, 251, 163));
         panelCamposTablas.setBorder(javax.swing.BorderFactory.createTitledBorder("Campos de la tabla seleccionada"));
 
         jScrollPane2.setViewportView(listaCamposTabla);
@@ -179,8 +181,8 @@ public class InterfazBD extends javax.swing.JFrame {
             panelCamposTablasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCamposTablasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2)
+                .addGap(51, 51, 51))
         );
 
         tituloLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -242,26 +244,27 @@ public class InterfazBD extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelTablas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelCamposTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panelTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelCamposTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addComponent(tituloLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tituloLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(229, 229, 229))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(20, 20, 20)
                 .addComponent(tituloLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelCamposTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
 
         pack();
@@ -285,7 +288,8 @@ public class InterfazBD extends javax.swing.JFrame {
     }//GEN-LAST:event_deseleccionarButtonActionPerformed
 
     private void itemCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCerrarActionPerformed
-        int answer = JOptionPane.showConfirmDialog(this, "¿Quiere cerrar la conexión a la base de datos?", "Salir", JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(this, "¿Quiere cerrar la "
+                + "conexión a la base de datos?", "Salir", JOptionPane.YES_NO_OPTION);
         if(answer == JOptionPane.YES_OPTION){
             baseDatos.cerrarConexion();
             this.dispose();
@@ -295,16 +299,22 @@ public class InterfazBD extends javax.swing.JFrame {
     }//GEN-LAST:event_itemCerrarActionPerformed
 
     private void itemMSimpleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMSimpleActionPerformed
-        JOptionPane.showMessageDialog(this, "El modo de seleccion simple solo permite seleccionar una tabla.", "Ayuda: Modo simple", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "El modo de seleccion simple solo "
+                + "permite seleccionar una tabla.", "Ayuda: Modo simple", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_itemMSimpleActionPerformed
 
     private void itemMIntervaloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMIntervaloActionPerformed
-        JOptionPane.showMessageDialog(this, "El modo de seleccion por intervalo, o intervalo único, solo permite seleccionar una tabla inicial y otra final, marcando automáticamente"
+        JOptionPane.showMessageDialog(this, "El modo de seleccion por intervalo,"
+                + " o intervalo único, solo permite seleccionar una tabla inicial y otra final"
+                + "(Shift + RMB (Botón derecho del mouse)), marcando automáticamente"
                 + " las que estén entre ellas.", "Ayuda: Modo por intervalo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_itemMIntervaloActionPerformed
 
     private void itemMMultipleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMMultipleActionPerformed
-        JOptionPane.showMessageDialog(this, "El modo de seleccion múltiple, o por múltiples intervalos, permite seleccionar varias tablas.", "Ayuda: Modo múltiple", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "El modo de seleccion múltiple, "
+                + "o por múltiples intervalos, permite seleccionar varias tablas"
+                + "(Ctrl + RMB (Botón derecho del mouse)).", 
+                "Ayuda: Modo múltiple", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_itemMMultipleActionPerformed
 
     private void listaTablasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaTablasValueChanged

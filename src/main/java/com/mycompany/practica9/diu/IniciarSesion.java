@@ -75,7 +75,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(100, 100, 100))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,7 +93,7 @@ public class IniciarSesion extends javax.swing.JFrame {
                     .addComponent(mostrarContraseñaCB))
                 .addGap(39, 39, 39)
                 .addComponent(loginButton)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,7 +110,7 @@ public class IniciarSesion extends javax.swing.JFrame {
             interfazBD.setVisible(true);
             this.dispose();
         }
-        
+       
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void mostrarContraseñaCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarContraseñaCBActionPerformed
