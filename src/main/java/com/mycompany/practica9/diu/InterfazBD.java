@@ -48,6 +48,8 @@ public class InterfazBD extends javax.swing.JFrame {
         itemCerrar = new javax.swing.JMenuItem();
         manuDescripcion = new javax.swing.JMenu();
         menu = new javax.swing.JMenu();
+        itemDescripción = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itemMSimple = new javax.swing.JMenuItem();
         itemMIntervalo = new javax.swing.JMenuItem();
         itemMMultiple = new javax.swing.JMenuItem();
@@ -206,6 +208,16 @@ public class InterfazBD extends javax.swing.JFrame {
 
         menu.setText("Acerca de");
 
+        itemDescripción.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itemDescripción.setText("Descripción");
+        itemDescripción.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemDescripciónActionPerformed(evt);
+            }
+        });
+        menu.add(itemDescripción);
+        menu.add(jSeparator1);
+
         itemMSimple.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itemMSimple.setText("Modo simple");
         itemMSimple.addActionListener(new java.awt.event.ActionListener() {
@@ -327,6 +339,12 @@ public class InterfazBD extends javax.swing.JFrame {
             }
         } 
     }//GEN-LAST:event_listaTablasValueChanged
+
+    private void itemDescripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDescripciónActionPerformed
+        JOptionPane.showMessageDialog(this, "La aplicación permite ver las tablas que"
+                + " componen la base de datos y ver los distintos campos de cada uno de ellas.",
+                "Ayuda: Descripción", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_itemDescripciónActionPerformed
   
     private void mostrarTablas() {
         try {
@@ -392,12 +410,14 @@ public class InterfazBD extends javax.swing.JFrame {
     private javax.swing.JButton deseleccionarButton;
     private javax.swing.JToggleButton intervalojTB;
     private javax.swing.JMenuItem itemCerrar;
+    private javax.swing.JMenuItem itemDescripción;
     private javax.swing.JMenuItem itemMIntervalo;
     private javax.swing.JMenuItem itemMMultiple;
     private javax.swing.JMenuItem itemMSimple;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JList<String> listaCamposTabla;
     private javax.swing.JList<String> listaTablas;
     private javax.swing.JMenu manuDescripcion;
